@@ -11,6 +11,7 @@ app = Flask(__name__)
 gateway = ProductGateway()
 repository = ConcreteProductRepository(product_gateway=gateway);
 product_service = ProductService(product_repository=repository)
+gateway.create_table()
 
 
 @app.route("/")
@@ -53,5 +54,6 @@ def delete(product_id):
     return ""
 
 
+
 if __name__ == "__main__":
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, host='0.0.0.0', port=5000)
