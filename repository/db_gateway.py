@@ -1,50 +1,37 @@
 import sqlalchemy as db
 import sqlalchemy.orm
-from sqlalchemy import Column, Integer, String, create_engine, Float
-from sqlalchemy.orm import declarative_base
 
-Base = declarative_base()
+from repository.database import engine, Base, Product, User
 
 
-class Product(Base):
-    __tablename__ = "product"
-
-    id = Column(Integer, primary_key=True)
-    sku = Column(String)
-    name = Column(String)
-    price = Column(Float)
-    brand = Column(String)
-
-
-class ProductGateway:
-    engine = create_engine('sqlite:///foo.db')
+class DataBaseGateway:
     session = sqlalchemy.orm.Session(bind=engine)
 
     def get_products(self) -> dict:
-        connection = self.engine.connect()
+        connection = engine.connect()
 
-        products = db.Table('product', Base.metadata, autoload=True, autoload_with=self.engine)
+        products = db.Table('product', Base.metadata, autoload=True, autoload_with=engine)
         query = db.select([products])
         result_query = connection.execute(query)
 
         return result_query.fetchall()
 
     def create(self, sku, name, price, brand):
-        session = sqlalchemy.orm.Session(bind=self.engine)
+        session = sqlalchemy.orm.Session(bind=engine)
         product = Product(sku=sku, name=name, price=price, brand=brand)
         session.add(product)
         session.commit()
         session.close()
 
     def delete(self, product_id):
-        session = sqlalchemy.orm.Session(bind=self.engine)
+        session = sqlalchemy.orm.Session(bind=engine)
         p = session.query(Product).get(product_id)
         session.delete(p)
         session.commit()
         session.close()
 
     def edit(self, product_id, sku, name, price, brand):
-        session = sqlalchemy.orm.Session(bind=self.engine)
+        session = sqlalchemy.orm.Session(bind=engine)
 
         p = session.query(Product).get(product_id)
         p.name = name
@@ -54,5 +41,11 @@ class ProductGateway:
         session.commit()
         session.close()
 
-    def create_table(self):
-        Base.metadata.create_all(self.engine)
+    def verifyPassword(self,username,password):
+        session = sqlalchemy.orm.Session(bind=engine)
+
+        u = session.query(User).filter_by(username=username).first()
+        return u.verify_password(password)
+
+
+

@@ -1,4 +1,4 @@
-from gateway.product_gateway import ProductGateway, Product
+from repository.db_gateway import DataBaseGateway, Product
 from repository.product_repository import ConcreteProductRepository
 
 
@@ -13,8 +13,8 @@ def test_get(monkeypatch):
     def mock_get(*args, **kwargs):
         return [product]
 
-    monkeypatch.setattr(ProductGateway, "get_products", mock_get)
-    gateway = ProductGateway()
+    monkeypatch.setattr(DataBaseGateway, "get_products", mock_get)
+    gateway = DataBaseGateway()
 
     repository = ConcreteProductRepository(product_gateway=gateway)
     get_list = repository.get_list()
@@ -25,9 +25,9 @@ def test_get(monkeypatch):
 
 
 def test_create(mocker):
-    mocker.patch.object(ProductGateway, 'create')
+    mocker.patch.object(DataBaseGateway, 'create')
 
-    gateway = ProductGateway()
+    gateway = DataBaseGateway()
     repository = ConcreteProductRepository(product_gateway=gateway)
     repository.create("sku", "test", 22.0, "brand")
 
@@ -35,9 +35,9 @@ def test_create(mocker):
 
 
 def test_delete(mocker):
-    mocker.patch.object(ProductGateway, 'delete')
+    mocker.patch.object(DataBaseGateway, 'delete')
 
-    gateway = ProductGateway()
+    gateway = DataBaseGateway()
     repository = ConcreteProductRepository(product_gateway=gateway)
     repository.delete(1)
 
@@ -45,9 +45,9 @@ def test_delete(mocker):
 
 
 def test_edit(mocker):
-    mocker.patch.object(ProductGateway, 'edit')
+    mocker.patch.object(DataBaseGateway, 'edit')
 
-    gateway = ProductGateway()
+    gateway = DataBaseGateway()
     repository = ConcreteProductRepository(product_gateway=gateway)
     repository.edit(1, "sku", "test", 22.0, "brand")
 

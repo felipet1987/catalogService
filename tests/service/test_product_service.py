@@ -1,4 +1,4 @@
-from interface.repository.product_repository import ProductRepository
+from service.product_repository import ProductRepository
 from rest.product_request import ProductRequest
 from service.product_service import ProductService
 
@@ -20,7 +20,7 @@ def test_get(monkeypatch):
     service = ProductService(product_repository=repo)
 
     get_list = service.get_list()
-    assert (get_list, products)
+    assert get_list, products
 
 
 def test_create(mocker):

@@ -1,11 +1,11 @@
-from gateway.product_gateway import ProductGateway
-from interface.repository.product_repository import ProductRepository
+from repository.db_gateway import DataBaseGateway
+from service.product_repository import ProductRepository
 
 
 class ConcreteProductRepository(ProductRepository):
-    product_gateway: ProductGateway
+    product_gateway: DataBaseGateway
 
-    def __init__(self, product_gateway: ProductGateway):
+    def __init__(self, product_gateway: DataBaseGateway):
         self.product_gateway = product_gateway
 
     def get_list(self):

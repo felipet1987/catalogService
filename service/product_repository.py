@@ -1,4 +1,4 @@
-class ProductRepository():
+class ProductRepository:
     async def get_list(self):
         raise NotImplementedError
 

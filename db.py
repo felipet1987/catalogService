@@ -1,8 +1,6 @@
-from gateway.product_gateway import ProductGateway
-
+from repository.database import init_db
 if __name__ == "__main__":
-    gateway = ProductGateway()
-    gateway.create_table()
+    init_db()
     print("db ready")
 
 
