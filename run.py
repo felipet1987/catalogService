@@ -46,6 +46,7 @@ def create():
 
 
 @app.route('/<product_id>', methods=['POST'])
+@auth.login_required
 def edit(product_id):
     data = json.loads(request.data)
     product_request = ProductRequest(
@@ -60,6 +61,7 @@ def edit(product_id):
 
 
 @app.route('/<product_id>', methods=['DELETE'])
+@auth.login_required
 def delete(product_id):
     product_service.delete(product_id)
     return ""
